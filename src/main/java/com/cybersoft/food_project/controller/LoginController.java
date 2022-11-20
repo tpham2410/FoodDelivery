@@ -1,5 +1,6 @@
 package com.cybersoft.food_project.controller;
 
+import com.cybersoft.food_project.jwt.JwtTokenHelper;
 import com.cybersoft.food_project.payload.request.SigninRequest;
 import com.cybersoft.food_project.payload.response.DataResponse;
 import com.cybersoft.food_project.services.LoginService;
@@ -25,6 +26,9 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
+    @Autowired
+    JwtTokenHelper jwtTokenHelper;
+
     @GetMapping("/test")
     public String test(){
         return "Test";
@@ -40,10 +44,16 @@ public class LoginController {
         Authentication auth = authenticationManager.authenticate(authenticationToken);
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(auth);
+
+        String token = jwtTokenHelper.generateToken(signinRequest.getUsername());
+        String decodeToken = jwtTokenHelper.decodeToken(token);
+
         DataResponse dataResponse = new DataResponse();
 
         dataResponse.setStatus(HttpStatus.OK.value());
-//        dataResponse.setSuccess(isSuccess);
+        dataResponse.setSuccess(true);
+        dataResponse.setDescription(decodeToken);
+        dataResponse.setData(token);
 
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);
 
