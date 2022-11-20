@@ -29,15 +29,13 @@ public class CustomAuthenProvider implements AuthenticationProvider {
             UsersEntity usersEntity = loginService.checkLogin(name);
 
             if(usersEntity != null){
-<<<<<<< HEAD
-                return new UsernamePasswordAuthenticationToken(usersEntity.getEmail(), usersEntity.getPassword(), new ArrayList<>());
-=======
                boolean isSuccess = passwordEncoder.matches(password, usersEntity.getPassword());
                if(isSuccess){
-                   return new UsernamePasswordAuthenticationToken(usersEntity.getEmail(), usersEntity.getPassword(), new ArrayList<>());
+                   return new UsernamePasswordAuthenticationToken(usersEntity.getEmail(), usersEntity.getPassword(),
+                           new ArrayList<>());
                }
                 return null;
->>>>>>> fffd574 (Add checkLoginByEmailAndPassword)
+
             } else {
                 return null;
             }
