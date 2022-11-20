@@ -19,4 +19,11 @@ public class LoginServiceImp implements LoginService{
         System.out.println(email+ "  " +password);
         return users.size() > 0;
     }
+
+    @Override
+    public UsersEntity checkLogin(String email) {
+        List<UsersEntity> user = userRepository.findByEmail(email);
+        System.out.println("Kiem tra " + email);
+        return user.size() > 0 ? user.get(0) : null;
+    }
 }

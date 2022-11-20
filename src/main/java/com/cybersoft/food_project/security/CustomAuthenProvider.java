@@ -1,5 +1,6 @@
 package com.cybersoft.food_project.security;
 
+import com.cybersoft.food_project.entity.UsersEntity;
 import com.cybersoft.food_project.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class CustomAuthenProvider implements AuthenticationProvider {
@@ -21,12 +23,14 @@ public class CustomAuthenProvider implements AuthenticationProvider {
 
             String name = authentication.getName();
             String password = authentication.getCredentials().toString();
-            boolean isSuccess = loginService.checkLogin(name,password);
+            UsersEntity usersEntity = loginService.checkLogin(name);
 
-            if(isSuccess){
-                return new UsernamePasswordAuthenticationToken(name, password, new ArrayList<>());
+            if(usersEntity != null){
+                return new UsernamePasswordAuthenticationToken(usersEntity.getEmail(), usersEntity.getPassword(), new ArrayList<>());
+            } else {
+                return null;
             }
-            return null;
+
     }
 
     @Override
