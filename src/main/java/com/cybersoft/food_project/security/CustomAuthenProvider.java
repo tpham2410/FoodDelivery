@@ -7,6 +7,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -20,13 +23,21 @@ public class CustomAuthenProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //Xử lý logic code đăng nhập thành công hay thất bại
-
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String name = authentication.getName();
             String password = authentication.getCredentials().toString();
             UsersEntity usersEntity = loginService.checkLogin(name);
 
             if(usersEntity != null){
+<<<<<<< HEAD
                 return new UsernamePasswordAuthenticationToken(usersEntity.getEmail(), usersEntity.getPassword(), new ArrayList<>());
+=======
+               boolean isSuccess = passwordEncoder.matches(password, usersEntity.getPassword());
+               if(isSuccess){
+                   return new UsernamePasswordAuthenticationToken(usersEntity.getEmail(), usersEntity.getPassword(), new ArrayList<>());
+               }
+                return null;
+>>>>>>> fffd574 (Add checkLoginByEmailAndPassword)
             } else {
                 return null;
             }
