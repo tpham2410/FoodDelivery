@@ -1,6 +1,7 @@
 package com.cybersoft.food_project.entity;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Entity(name = "user")
 public class UsersEntity {
@@ -45,6 +46,18 @@ public class UsersEntity {
 //    is_active boolean default false,
     @Column(name = "is_active")
     private boolean isActive;
+
+    @OneToOne(mappedBy = "usersEntity")
+    private UserDetailEntity userDetailEntity;
+
+    public UserDetailEntity getUserDetailEntity() {
+
+        return userDetailEntity;
+    }
+
+    public void setUserDetailEntity(UserDetailEntity userDetailEntity) {
+        this.userDetailEntity = userDetailEntity;
+    }
 
     public int getId() {
         return id;
