@@ -31,10 +31,8 @@ public class RefreshToken {
     private long refreshExpireTime =  80*60*60*1000;
 
     @PostMapping("")
-    public ResponseEntity<?> index(@RequestParam("token ") String token){
+    public ResponseEntity<?> index(@RequestParam("token") String token){
         DataResponse dataResponse = new DataResponse();
-
-        if (token != null){
             //Kiểm tra token có phải do hệ thống sinh ra không
             if (jwtTokenHelper.validateToken(token)){
 
@@ -47,8 +45,6 @@ public class RefreshToken {
                     String tokenAuthen = jwtTokenHelper.generateToken(map.get("username").toString(),"authen",expireTime);
                     String refreshToken = jwtTokenHelper.generateToken(map.get("username").toString(),"refresh",refreshExpireTime);
 
-
-
                     TokenResponse tokenResponse = new TokenResponse();
 
                     tokenResponse.setToken(tokenAuthen);
@@ -58,13 +54,10 @@ public class RefreshToken {
                     dataResponse.setSuccess(true);
                     dataResponse.setDescription("");
                     dataResponse.setData(tokenResponse);
+
                 }
 
-
             }
-
-        }
-
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);
     }
 

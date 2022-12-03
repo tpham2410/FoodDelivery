@@ -79,8 +79,8 @@ public class SeSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/signin").permitAll()
-                .antMatchers("/signin/test").authenticated()
                 .antMatchers("/refresh-token").permitAll()
+                .antMatchers("/signin/test").authenticated()
                 .anyRequest().authenticated();
 
 
