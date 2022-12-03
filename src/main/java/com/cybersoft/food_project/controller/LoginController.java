@@ -3,6 +3,7 @@ package com.cybersoft.food_project.controller;
 import com.cybersoft.food_project.jwt.JwtTokenHelper;
 import com.cybersoft.food_project.payload.request.SigninRequest;
 import com.cybersoft.food_project.payload.response.DataResponse;
+import com.cybersoft.food_project.payload.response.TokenResponse;
 import com.cybersoft.food_project.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/signin")
 public class LoginController {
+    private  long expireTime = 8*60*60*1000;
+    private long refreshExpireTime =  80*60*60*1000;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -45,15 +48,20 @@ public class LoginController {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(auth);
 
-        String token = jwtTokenHelper.generateToken(signinRequest.getUsername());
-        String decodeToken = jwtTokenHelper.decodeToken(token);
+        String token = jwtTokenHelper.generateToken(signinRequest.getUsername(),"authen",expireTime);
+        String refreshToken = jwtTokenHelper.generateToken(signinRequest.getUsername(),"refresh",refreshExpireTime);
+
 
         DataResponse dataResponse = new DataResponse();
+        TokenResponse tokenResponse = new TokenResponse();
+
+        tokenResponse.setToken(token);
+        tokenResponse.setRefreshToken(refreshToken);
 
         dataResponse.setStatus(HttpStatus.OK.value());
         dataResponse.setSuccess(true);
-        dataResponse.setDescription(decodeToken);
-        dataResponse.setData(token);
+        dataResponse.setDescription("");
+        dataResponse.setData(tokenResponse);
 
         return new ResponseEntity<>(dataResponse, HttpStatus.OK);
 
