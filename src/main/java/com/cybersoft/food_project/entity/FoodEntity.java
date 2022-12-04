@@ -52,6 +52,17 @@ public class FoodEntity {
     @OneToMany(mappedBy = "foodEntity")
     private Set<FoodMaterialEntity> foodMaterialEntities;
 
+    @OneToMany(mappedBy = "foodEntity")
+    private Set<FoodOrderEntity> foodOrderEntities;
+
+    public Set<FoodOrderEntity> getFoodOrderEntities() {
+        return foodOrderEntities;
+    }
+
+    public void setFoodOrderEntities(Set<FoodOrderEntity> foodOrderEntities) {
+        this.foodOrderEntities = foodOrderEntities;
+    }
+
     public Set<FoodMaterialEntity> getFoodMaterialEntities() {
         return foodMaterialEntities;
     }

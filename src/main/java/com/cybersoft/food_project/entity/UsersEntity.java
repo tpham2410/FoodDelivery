@@ -54,6 +54,17 @@ public class UsersEntity {
     @OneToMany(mappedBy = "usersEntity")
     private Set<FoodReviewEntity> foodReviewEntities;
 
+    @OneToMany(mappedBy = "usersEntity")
+    private Set<TOderEntity> tOderEntities;
+
+    public Set<TOderEntity> gettOderEntities() {
+        return tOderEntities;
+    }
+
+    public void settOderEntities(Set<TOderEntity> tOderEntities) {
+        this.tOderEntities = tOderEntities;
+    }
+
     public Set<FoodReviewEntity> getFoodReviewEntities() {
         return foodReviewEntities;
     }
