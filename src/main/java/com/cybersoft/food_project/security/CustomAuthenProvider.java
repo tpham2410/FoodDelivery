@@ -17,6 +17,7 @@ public class CustomAuthenProvider implements AuthenticationProvider {
 
     @Autowired
     LoginService loginService;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //Xử lý logic code đăng nhập thành công hay thất bại
