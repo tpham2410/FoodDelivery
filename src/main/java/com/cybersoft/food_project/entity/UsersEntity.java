@@ -2,6 +2,7 @@ package com.cybersoft.food_project.entity;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.Set;
 
 @Entity(name = "user")
 public class UsersEntity {
@@ -49,6 +50,17 @@ public class UsersEntity {
 
     @OneToOne(mappedBy = "usersEntity")
     private UserDetailEntity userDetailEntity;
+
+    @OneToMany(mappedBy = "usersEntity")
+    private Set<FoodReviewEntity> foodReviewEntities;
+
+    public Set<FoodReviewEntity> getFoodReviewEntities() {
+        return foodReviewEntities;
+    }
+
+    public void setFoodReviewEntities(Set<FoodReviewEntity> foodReviewEntities) {
+        this.foodReviewEntities = foodReviewEntities;
+    }
 
     public UserDetailEntity getUserDetailEntity() {
 
