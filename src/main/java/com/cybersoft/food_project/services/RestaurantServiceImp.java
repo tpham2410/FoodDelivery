@@ -2,8 +2,10 @@ package com.cybersoft.food_project.services;
 
 import com.cybersoft.food_project.dto.RestaurantDTO;
 import com.cybersoft.food_project.dto.RestaurantDetailDTO;
+import com.cybersoft.food_project.entity.FoodEntity;
 import com.cybersoft.food_project.entity.RestaurantEntity;
 import com.cybersoft.food_project.entity.RestaurantReviewEntity;
+import com.cybersoft.food_project.model.FoodModel;
 import com.cybersoft.food_project.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,9 @@ public class RestaurantServiceImp implements RestaurantService{
         RestaurantDetailDTO restaurantDetailDTO = new RestaurantDetailDTO();
 
         if(restaurantEntity.isPresent()){
+
+            List<FoodModel> foodModelList = new ArrayList<>();
+
             restaurantDetailDTO.setTitle(restaurantEntity.get().getName());
             restaurantDetailDTO.setImage(restaurantEntity.get().getImage());
 
@@ -72,6 +77,17 @@ public class RestaurantServiceImp implements RestaurantService{
                     avgRate = sumRate/restaurantEntity.get().getRestaurantReviewEntities().size();
                 }
 
+                for(FoodEntity foodData: restaurantEntity.get().getFoodEntities()){
+                    FoodModel foodModel = new FoodModel();
+
+                    foodModel.setId(foodData.getId());
+                    foodModel.setName(foodData.getName());
+                    foodModel.setImage(foodData.getImage());
+                    foodModel.setPrice(foodData.getPrice());
+
+                    foodModelList.add(foodModel);
+                }
+            restaurantDetailDTO.setFoodModels(foodModelList);
             restaurantDetailDTO.setAvgRate(avgRate);
         }
 
